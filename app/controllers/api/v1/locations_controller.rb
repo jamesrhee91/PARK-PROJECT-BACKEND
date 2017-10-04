@@ -18,10 +18,20 @@ class Api::V1::LocationsController < ApplicationController
     loc = Location.find_or_initialize_by(lonlat: "POINT(#{lon} #{lat})")
     user = User.first
     if loc.save
-      Reservation.create({user_id: user.id, location_id: loc.id})
+      Reservation.find_or_create_by({user_id: user.id, location_id: loc.id})
       render json: {success: loc}
     else
       render json: {error: "Something went wrong"}
+    end
+  end
+
+  def destroy
+    loc = Location.find(params[:id])
+    res = Reservation.find_by(location_id: params[:id])
+    if res.destroy && loc.destroy
+      render json: {success: "success"}
+    else
+      render json: {error: "error"}
     end
   end
 

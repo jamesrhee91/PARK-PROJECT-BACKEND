@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 Location.destroy_all
 User.destroy_all
+Reservation.destroy_all
 
 User.create({first_name: "James", last_name: "Rhee", email: "james.rhee@flatironschool.com", password: "1"})
 
@@ -24,5 +25,10 @@ Location.create([
   {lonlat: "POINT(-74.0127 40.7023)"},
   {lonlat: "POINT(-74.0130 40.7028)"}
 ])
+
+Reservation.create(user_id: 1, location_id: 1)
+Reservation.create(user_id: 1, location_id: 2)
+Reservation.create(user_id: 1, location_id: 3)
+Reservation.create(user_id: 1, location_id: 4)
 
 p "Created #{Location.count} locations with username #{User.first.email}"
