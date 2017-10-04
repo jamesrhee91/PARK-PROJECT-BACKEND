@@ -13,15 +13,18 @@ class Api::V1::LocationsController < ApplicationController
   end
 
   def create
-    lon = location_params[:lon]
-    lat = location_params[:lat]
+    lon = location_params[:lon].round(4)
+    lat = location_params[:lat].round(4)
     loc = Location.find_or_initialize_by(lonlat: "POINT(#{lon} #{lat})")
+    user = User.first
     if loc.save
+      Reservation.create({user_id: user.id, location_id: loc.id})
       render json: {success: loc}
     else
       render json: {error: "Something went wrong"}
     end
   end
+
 
   private
 

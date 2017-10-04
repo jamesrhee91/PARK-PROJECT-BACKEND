@@ -6,6 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 Location.destroy_all
+User.destroy_all
+
+User.create({first_name: "James", last_name: "Rhee", email: "james.rhee@flatironschool.com", password: "1"})
 
 Location.create([
   {lonlat: "POINT(-74.0147 40.7053)"},
@@ -22,4 +25,4 @@ Location.create([
   {lonlat: "POINT(-74.0130 40.7028)"}
 ])
 
-p "Created #{Location.count} locations"
+p "Created #{Location.count} locations with username #{User.first.email}"

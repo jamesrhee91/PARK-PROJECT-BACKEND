@@ -3,9 +3,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :users
       post '/locations', to: 'locations#create'
       get '/locations/:coords', to: 'locations#index'
+      get '/users/:id', to: 'users#index'
       # resources :locations
       # get '/restaurants', to: 'restaurants#index'
       # post '/restaurants', to: 'restaurants#index'
