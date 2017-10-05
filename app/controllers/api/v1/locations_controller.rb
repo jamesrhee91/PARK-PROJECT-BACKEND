@@ -21,10 +21,10 @@ class Api::V1::LocationsController < ApplicationController
     if loc
       render json: {exists: "Already exists"}
     elsif !loc
-      Location.create(lonlat: "POINT(#{lon} #{lat})")
-      Reservation.find_or_create_by({user_id: user.id, location_id: loc.id})
-      HardWorker.set(wait: 30).perform_later(loc.id)
-      render json: {success: loc}
+      new_loc = Location.create(lonlat: "POINT(#{lon} #{lat})")
+      Reservation.find_or_create_by({user_id: user.id, location_id: new_loc.id})
+      HardWorker.set(wait: 30).perform_later(new_loc.id)
+      render json: {success: new_loc}
     else
       render json: {error: "Something went wrong"}
     end
