@@ -19,7 +19,7 @@ class Api::V1::LocationsController < ApplicationController
     user = User.first
     if loc.save
       Reservation.find_or_create_by({user_id: user.id, location_id: loc.id})
-      HardWorker.set(wait: 10).perform_later(loc.id)
+      HardWorker.set(wait: 30).perform_later(loc.id)
       render json: {success: loc}
     else
       render json: {error: "Something went wrong"}
