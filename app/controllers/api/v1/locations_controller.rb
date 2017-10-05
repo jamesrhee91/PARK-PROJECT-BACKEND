@@ -3,7 +3,7 @@ class Api::V1::LocationsController < ApplicationController
   def index
     lat = params[:coords].split('&')[0].gsub('_', '.').to_f
     lon = params[:coords].split('&')[1].gsub('_', '.').to_f
-    nearest = Location.where("ST_Distance(lonlat, 'POINT(#{lon} #{lat})') < 200")
+    nearest = Location.where("ST_Distance(lonlat, 'POINT(#{lon} #{lat})') < 800")
     if nearest.blank?
       render json: {empty: []}
     else
