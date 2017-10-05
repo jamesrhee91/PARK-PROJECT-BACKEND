@@ -42,3 +42,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Add PostGIS
 gem 'activerecord-postgis-adapter'
+
+gem 'sidekiq'
