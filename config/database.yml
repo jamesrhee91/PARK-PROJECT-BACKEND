@@ -81,7 +81,7 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV.fetch('DATABASE_URL').sub(/^postgres/, "postgis") %>
+  url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
   database: backend-rails_production
   username: backend-rails
   password: <%= ENV['BACKEND-RAILS_DATABASE_PASSWORD'] %>
