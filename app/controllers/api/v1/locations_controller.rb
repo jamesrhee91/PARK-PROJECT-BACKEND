@@ -15,9 +15,13 @@ class Api::V1::LocationsController < ApplicationController
   def create
     lon = location_params[:lon].round(4)
     lat = location_params[:lat].round(4)
-    loc = Location.find_or_initialize_by(lonlat: "POINT(#{lon} #{lat})")
+    loc = Location.find_by(lonlat: "POINT(#{lon} #{lat})")
+    # loc = Location.find_or_initialize_by(lonlat: "POINT(#{lon} #{lat})")
     user = User.first
-    if loc.save
+    if loc
+      render json: {exists: "Already exists"}
+    elsif !loc
+      Location.create(lonlat: "POINT(#{lon} #{lat})")
       Reservation.find_or_create_by({user_id: user.id, location_id: loc.id})
       HardWorker.set(wait: 30).perform_later(loc.id)
       render json: {success: loc}
