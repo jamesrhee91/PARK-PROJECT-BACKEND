@@ -71,15 +71,17 @@ test:
 # On Heroku and other platform providers, you may have a full connection URL
 # available as an environment variable. For example:
 #
-#   DATABASE_URL="postgres://myuser:mypass@localhost/somedatabase"
+  # DATABASE_URL="postgres://pphknlhbacvkzp:3432b924a7bb4cd237098bab529a488f172199785204eec038c02f0bdd9d1376@ec2-54-204-41-80.compute-1.amazonaws.com:5432/d4r96749c4q516"
 #
 # You can use this database configuration with:
 #
 #   production:
-#     url: <%= ENV['DATABASE_URL'] %>
+#     url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
 #
+
 production:
   <<: *default
+  url: <%= ENV.fetch('DATABASE_URL').sub(/^postgres/, "postgis") %>
   database: backend-rails_production
   username: backend-rails
   password: <%= ENV['BACKEND-RAILS_DATABASE_PASSWORD'] %>
