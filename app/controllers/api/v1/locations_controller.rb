@@ -3,7 +3,7 @@ class Api::V1::LocationsController < ApplicationController
   def index
     lat = params[:coords].split('&')[0].gsub('_', '.').to_f
     lon = params[:coords].split('&')[1].gsub('_', '.').to_f
-    nearest = Location.where("ST_Distance(lonlat, 'POINT(#{lon} #{lat})') < 800")
+    nearest = Location.where("ST_Distance(lonlat, 'POINT(#{lon} #{lat})') < 300")
     if nearest.blank?
       render json: {empty: []}
     else
@@ -23,7 +23,7 @@ class Api::V1::LocationsController < ApplicationController
     elsif !loc
       new_loc = Location.create(lonlat: "POINT(#{lon} #{lat})")
       Reservation.find_or_create_by({user_id: user.id, location_id: new_loc.id})
-      HardWorker.set(wait: 30).perform_later(new_loc.id)
+      HardWorker.set(wait: 60).perform_later(new_loc.id)
       render json: {success: new_loc}
     else
       render json: {error: "Something went wrong"}
